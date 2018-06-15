@@ -1,0 +1,91 @@
+﻿https://note.youdao.com/share/?id=9db9bc373e851d38989ec62767eb5aa7&type=note#/
+
+提交代码流程：
+1、查看自己修改了哪些代码
+git status
+2、将自己修改的代码添加到本地仓库
+git add -A
+3、保存
+
+4、提交到本地
+git commit -m '提交备注'
+git status
+4、拉取远程的代码带本地
+git fetch origin master
+5、合并代码
+git rebase origin/master（有冲突会显示）
+
+	如果有冲突就解决（去idea中解决冲突）
+	git add -A  将解决好冲突的文件从新提交到本地仓库
+	$ git rebase --continue  重新合并本地仓库
+
+6、没有冲突的情况下，提交代码到远程仓库
+git push origin master
+
+
+
+查看所有分支
+$ git branch -a
+清空本地分支缓存
+$ git fetch -p
+
+一个是本地worksapce工作区，一个是stash暂存区，一个是localRepository本地库，一个是remoteRepository远程库
+
+
+1、为了每次提交代码是免输入密码，我们要生成秘钥（公钥id_rsa.pub和私钥id_rsa）
+	ssh-keygen -t rsa -C"xxx@qq.com"
+	一路回车键，不要输入密码，如果输入密码，以后提交代码就要输入密码
+	生成的秘钥在这个文件路径：C:\Users\borui\.ssh
+	用文本编辑器打开公钥，复制里面的信息，加入到git服务器的ssh keys当中，就可以了
+2下载项目
+	git clone ssh地址（面输密码，如果是https地址需要输入密码）
+	
+3 查看当前分支 git branch
+4 查看远程分支 git branch -a	
+5 创建一个分支 git branch wxz ,然后切换到刚创建的分支 git branch wxz ，然后提交分支到远程仓库 git push  origin wxz
+6 删除本地分支 git branch -d wxz
+7 删除远程分支 git push origin --delete wxz
+8 修改工作区某个文件，还没提交到缓存区，想要丢弃修改 git checkout -- . 或 git checkout -- a.txt 通常用（"."代表所有文件，注意"."前面的空格）
+9 修改的代码提交到缓存区（执行了git add -A），想退回到工作区 git reset head . 或git reset head a.txt 通常用（"."代表所有文件，注意"."前面的空格）
+10 如果修改的代码已经commit到本地仓库，但还没提交到远程仓库，想要回去到历史版本，
+	git log 获取所有提交的版本id
+	git reset --soft commit_id或者git reset --soft HEAD^ （head指向的版本就是当前版本）
+11 git stash 用法
+	当前分支的工作区已经修改了部分内容，但是功能还没修改完成，此时要去切换去另一个分支修改bug，但当前分支的工作区代码没写完不想提交怎么办？就用stash保存到git栈中
+	git stash save "未写完的代码" 保存未写完的代码到git栈，然后切换到另一个分支修改bug
+	git stash list 查看git栈中所有保存的列表
+	git stash pop  修改完另一个工作区代码后，切换回之前的工作区，然后从工作暂中读取git栈最后一次保存的内容，回复到工作区中
+	git stash clear 清空git栈
+12 更新远程仓库中指定文件，
+	如小王提交了a.txt和b.txt到远程仓库，小明只想更新a.txt到本地
+	（1）git fetch 抓取远程仓库最新修改
+	（2）git checkout origin/dev -- src/main/control/a.txt 更新指定文件（src/main/control/a.txt 是a.txt文件的路径）
+13 分支合并
+	将dev中的代码合并到master中
+	（1）git checkout master 首先切换到master上面
+	（2）git fetch origin master 更新master远程的代码到本地分支
+	（3）git rebase origin/master 合并远程代码到本地
+	（4）git merge dev (或者git merge --no --ff dev )合并dev分支到master
+14 合并dev分支中的某个commit提交到master
+	 如果dev提交了很多个commit，每一个commit对应一个commitId，可以通过git log查看获取commitId
+	 (1)git checkout master 切换到master分支
+	 (2)git fetch origin master 、git rebase origin/mster 同步远程仓库代码
+	 (3)git cherry-pick 333358a(commitId 取前七位就够了，当然你用全部也是可以的) 同步dev分支修改的某个提交到master
+		如果有冲突就解决冲突：然后继续合并git add -A ,git cherry-pick --continue
+	 (4)git push origin master 提交到远程仓库
+	 
+	 
+	 
+将代码上传到github
+（1）注册github账号
+（2）git init 初始化（生成.git文件夹）
+（3）git add . 和git commit -m"上传测试" 将代码上传到本地仓库
+（4）git remote add origin git@github.com:wxz123123/spring-cloud-config-server.git 将本地仓库和远程github仓库关联
+（5）git push origin master 将代码提交到远程仓库
+
+	
+	
+	
+
+
+
