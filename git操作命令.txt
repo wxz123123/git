@@ -61,11 +61,13 @@ $ git fetch -p
 	（1）git fetch 抓取远程仓库最新修改
 	（2）git checkout origin/dev -- src/main/control/a.txt 更新指定文件（src/main/control/a.txt 是a.txt文件的路径）
 13 分支合并
-	将dev中的代码合并到master中
+	将本地dev中的代码合并到master中
 	（1）git checkout master 首先切换到master上面
 	（2）git fetch origin master 更新master远程的代码到本地分支
 	（3）git rebase origin/master 合并远程代码到本地
 	（4）git merge dev (或者git merge --no --ff dev )合并dev分支到master
+	 (5) git commit 将合并的dev代码提交到master本地仓库，这里的commit不需要写-m描述
+	（6）git push origin master
 14 合并dev分支中的某个commit提交到master
 	 如果dev提交了很多个commit，每一个commit对应一个commitId，可以通过git log查看获取commitId
 	 (1)git checkout master 切换到master分支
@@ -74,8 +76,11 @@ $ git fetch -p
 		如果有冲突就解决冲突：然后继续合并git add -A ,git cherry-pick --continue
 	 (4)git push origin master 提交到远程仓库
 	 
-	 
-	 
+15 将远程分支代码拉下来
+	git checkout -b  dev origin/dev 
+16 合并过程中，出现问题，放弃合并
+	$ git rebase --abort
+
 将代码上传到github
 （1）注册github账号
 （2）git init 初始化（生成.git文件夹）
